@@ -1,0 +1,26 @@
+﻿@model UserProfileViewModel
+
+<h2>Mój profil</h2>
+
+@if (!string.IsNullOrEmpty(Model.User.ProfileImagePath))
+{
+    <img src="@Model.User.ProfileImagePath" class="img-thumbnail mb-3" style="max-width: 200px;" />
+}
+else
+{
+    <img src="/images/default-profile.png" class="img-thumbnail mb-3" style="max-width: 200px;" />
+}
+
+<h3>@Model.User.DisplayName</h3>
+<p>@Model.User.Bio</p>
+
+<hr />
+
+<h4>Statystyki</h4>
+<ul>
+    <li>Posty: @Model.PostsCount</li>
+    <li>Znajomi: @Model.FriendsCount</li>
+    <li>Subskrypcje: @Model.SubscriptionsCount</li>
+</ul>
+
+<a asp-action="Edit" class="btn btn-primary">Edytuj profil</a>

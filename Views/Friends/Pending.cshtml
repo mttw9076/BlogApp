@@ -1,0 +1,35 @@
+﻿@model IEnumerable<WebApplication1.Models.Friend>
+
+@{
+    ViewData["Title"] = "Zaproszenia";
+}
+
+<h2>Oczekujące zaproszenia</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Od</th>
+            <th>Opcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var f in Model)
+        {
+            <tr>
+                <td>@f.RequesterId</td>
+                <td>
+                    <form asp-action="Accept" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@f.Id" />
+                        <button class="btn btn-success btn-sm">Akceptuj</button>
+                    </form>
+
+                    <form asp-action="Reject" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@f.Id" />
+                        <button class="btn btn-warning btn-sm">Odrzuć</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

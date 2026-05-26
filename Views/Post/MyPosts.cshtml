@@ -1,0 +1,45 @@
+﻿@model IEnumerable<WebApplication1.Models.Post>
+
+@{
+    ViewData["Title"] = "MyPosts";
+}
+
+<h1>Moje posty</h1>
+
+<p>
+    <a asp-controller="Post" asp-action="Create">Dodaj nowy</a>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-controller="Post" asp-route-id="@item.Id">Edytuj</a> |
+                    <a asp-action="Details" asp-controller="Post" asp-route-id="@item.Id">Więcej</a> |
+                    <form asp-action="Delete" asp-controller="Post" asp-route-id="@item.Id" method="post" style="display:inline;">
+                    <button class="btn btn-danger btn-sm">Usuń</button>
+                </form>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

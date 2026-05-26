@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<ApplicationUser>
+
+@{
+    ViewData["Title"] = "Wyszukaj użytkownika";
+}
+
+<h2>Wyniki wyszukiwania</h2>
+
+@if (!Model.Any())
+{
+    <p>Brak wyników.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Użytkownik</th>
+                <th>Znajomi</th>
+                <th>Subskrypcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var u in Model)
+            {
+                <tr>
+                    <td>@u.UserName</td>
+
+                    <!-- Dodaj znajomego -->
+                    <td>
+                        <form asp-controller="Friends" asp-action="SendRequest" method="post">
+                            <input type="hidden" name="userId" value="@u.Id" />
+                            <button class="btn btn-outline-primary btn-sm">Dodaj znajomego</button>
+                        </form>
+                    </td>
+
+                    <!-- Subskrybuj -->
+                    <td>
+                        <form asp-controller="Subscription" asp-action="Subscribe" method="post">
+                            <input type="hidden" name="userId" value="@u.Id" />
+                            <button class="btn btn-outline-success btn-sm">Subskrybuj</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

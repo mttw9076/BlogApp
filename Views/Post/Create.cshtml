@@ -1,0 +1,39 @@
+﻿@model WebApplication1.Models.Post
+
+@{
+    ViewData["Title"] = "Edytuj post";
+}
+
+<h2>Edytuj post</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Content" class="form-label"></label>
+        <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+    <a asp-action="MyPosts" class="btn btn-secondary">Powrót</a>
+</form>
+
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+    tinymce.init({
+        selector: '#Content',
+        height: 400,
+        menubar: false,
+        plugins: 'link lists image code table',
+        toolbar: 'undo redo | bold italic underline | bullist numlist | link | code',
+        branding: false
+    });
+</script>

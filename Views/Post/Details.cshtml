@@ -1,0 +1,27 @@
+﻿@model WebApplication1.Models.Post
+
+@{
+    ViewData["Title"] = "Szczegóły posta";
+}
+
+<h2>@Model.Title</h2>
+
+<div class="mb-3">
+    <strong>Autor:</strong>
+    @Model.Author?.UserName
+</div>
+
+<div class="mb-3">
+    <strong>Data utworzenia:</strong>
+    @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")
+</div>
+
+<div class="mb-3">
+    <strong>Treść:</strong>
+    <p>@Model.Content</p>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edytuj</a>
+    <a asp-action="Index" class="btn btn-secondary">Powrót</a>
+</div>

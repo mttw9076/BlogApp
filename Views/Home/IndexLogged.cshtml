@@ -1,0 +1,24 @@
+﻿@model IEnumerable<WebApplication1.Models.Post>
+
+<h2 class="mb-4">Ostatnie posty od subskrybowanych użytkowników</h2>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">Nie masz jeszcze żadnych subskrypcji lub nikt nic nie dodał.</p>
+}
+
+<div class="row">
+    @foreach (var post in Model)
+    {
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4>@post.Title</h4>
+                    <p class="text-muted">@post.CreatedAt.ToShortDateString()</p>
+                    <p>@post.Content.Substring(0, Math.Min(150, post.Content.Length))...</p>
+                    <a href="/Posts/Details/@post.Id" class="btn btn-primary btn-sm">Czytaj dalej</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

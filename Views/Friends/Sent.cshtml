@@ -1,0 +1,25 @@
+﻿@model IEnumerable<WebApplication1.Models.Friend>
+
+@{
+    ViewData["Title"] = "Wysłane zaproszenia";
+}
+
+<h2>Wysłane zaproszenia</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Do</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var f in Model)
+        {
+            <tr>
+                <td>@f.ReceiverId</td>
+                <td>@f.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>

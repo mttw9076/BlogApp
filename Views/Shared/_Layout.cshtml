@@ -1,0 +1,171 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BlogApp
+    </title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+
+    <style>
+        /* Nowoczesny wygląd przycisku menu */
+        .menu-btn {
+            border: none;
+            background: transparent;
+            font-size: 1.6rem;
+            padding: 0.3rem 0.6rem;
+            cursor: pointer;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+
+        .offcanvas {
+            width: 260px;
+        }
+
+        .offcanvas .list-group-item {
+            border: none;
+            font-size: 1.1rem;
+            padding: 12px 5px;
+        }
+
+        .offcanvas .list-group-item a {
+            color: #333;
+        }
+
+        .offcanvas .list-group-item a:hover {
+            color: #0d6efd;
+        }
+
+        footer {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+
+        <!-- Wysuwane menu -->
+        <div class="offcanvas offcanvas-start shadow" tabindex="-1" id="mainMenu">
+            <div class="offcanvas-header border-bottom">
+               <h5><a href="/">🏠Strona główna</a></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <ul class="list-group list-group-flush">
+                    @if (User.Identity.IsAuthenticated == false)
+                    {
+                    <li class="list-group-item">
+                        <a asp-area="Identity" asp-page="/Account/Login">🔑 @Localizer["Login"]</a>
+                    </li>
+
+                    <li class="list-group-item list-group-item-action">
+                        <a asp-area="Identity" asp-page="/Account/Register">📝 @Localizer["Register"]</a>
+                    </li>
+
+                    }
+
+                    @if(User.Identity.IsAuthenticated)
+                    {
+                    <li class="list-group-item">
+                        <a asp-controller="Post" asp-action="MyPosts">📝 Moje Posty</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a asp-controller="User" asp-action="Profile">👤 Mój Profil</a>
+                    </li>   
+                    <li class="list-group-item">
+                        <a asp-controller="Friends" asp-action="Index">🤝 Znajomi</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a asp-controller="Subscription" asp-action="Index">⭐ Subskrypcje</a>
+                    </li>
+                    }
+                   
+                </ul>
+            </div>
+        </div>
+
+        <!-- Nowoczesny navbar -->
+        <nav class="navbar bg-white shadow-sm px-3 py-2">
+            <button class="menu-btn" data-bs-toggle="offcanvas" data-bs-target="#mainMenu">
+                ☰
+            </button>
+
+            <a class="navbar-brand ms-2" href="/">BlogApp</a>
+
+            <form method="get" action="/Search/Users" class="d-flex ms-3" style="width: 250px;">
+                <input name="q" class="form-control form-control-sm" type="search" placeholder="Szukaj użytkowników..." />
+            </form>
+
+            <div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form method="post" action="/Identity/Account/Logout?returnUrl=/" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Wyloguj</button>
+                    </form>
+                }
+                else
+                {
+                    <a href="/Identity/Account/Login" class="btn btn-primary btn-sm">Zaloguj</a>
+                }
+
+            </div>
+        </nav>
+
+    </header>
+
+    <div class="container mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted py-3">
+        <div class="container text-center">
+            &copy; 2026 - BlogApp -
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <!-- Floating Chat Button -->
+        <button id="chatToggle" class="chat-btn shadow-lg">
+            💬
+        </button>
+
+        <!-- Chat Panel -->
+        <div id="chatPanel" class="chat-panel shadow-lg">
+            <div class="chat-header">
+                <strong>Czat</strong>
+                <button id="chatClose" class="btn-close"></button>
+            </div>
+
+            <div class="chat-body">
+                <div id="messages"></div>
+            </div>
+
+            <div class="chat-input">
+                <input id="chatMessage" type="text" class="form-control" placeholder="Napisz wiadomość..." />
+                <button id="sendMessage" class="btn btn-primary">Wyślij</button>
+            </div>
+        </div>
+    }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
